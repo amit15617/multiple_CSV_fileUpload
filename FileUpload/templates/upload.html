@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
+    <link href="http://cdn-na.infragistics.com/igniteui/2019.2/latest/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" />
+<script src="http://igniteui.com/js/modernizr.min.js"></script>
+<link href="upload1.css" rel="stylesheet" />
+<script src="http://cdn-na.infragistics.com/igniteui/latest/js/infragistics.core.js"></script>
+<script src="http://cdn-na.infragistics.com/igniteui/latest/js/infragistics.lob.js"></script>
+<link href="http://cdn-na.infragistics.com/igniteui/latest/css/themes/infragistics/infragistics.theme.css" rel="stylesheet"></link>
+<link href="http://cdn-na.infragistics.com/igniteui/latest/css/structure/infragistics.css" rel="stylesheet"></link>
+<!-- <link href="C:\Users\765305\Documents\FileUpload\file1.js"></script> -->
+<script>$(function () {
+    var buttonLabel = $.ig.Upload.locale.labelUploadButton;
+    if (Modernizr.input.multiple) {
+        buttonLabel = "Drag and Drop Files Here <br/> or Click to Select From a Dialog";
+    }
+    $("#igUpload1").igUpload({
+        mode: 'multiple',
+        multipleFiles: true,
+        maxUploadedFiles: 7,
+        maxSimultaneousFilesUploads: 6,
+        progressUrl: "http://igniteui.com/IGUploadStatusHandler.ashx",
+        controlId: "serverID1",
+        labelUploadButton: buttonLabel,
+        onError: function (e, args) {
+            showAlert(args);
+        }
+    });
+    if (Modernizr.input.multiple) {
+        $(".ui-igstartupbrowsebutton").attr("style", "width: 320px; height: 80px;");
+    }
+    $("#useSingleRequestCheck").igCheckboxEditor({
+        checked: false,
+        valueChanged: function (evt, ui) {
+            $("#igUpload1").igUpload("option", "useSingleRequest", ui.newState);
+        }
+    });
+  });
+  
+  function showAlert(args) {
+    $("#error-message").html(args.errorMessage).stop(true, true).fadeIn(500).delay(3000).fadeOut(500);
+  }</script>
+<div class="border-box igui-filter-checkbox">
+        <div class="mb10 s-clearfix">
+            <input class="mr5 igui-filter-f-left" id="useSingleRequestCheck" type="checkbox"></input>
+            <label class="ml5 igui-filter-f-right mt4" for="useSingleRequestCheck">Use a Single Request for Uploading Multiple Files</label>
+        </div>
+        <style> 
+
+        </style>
+    </div>
+
+    <div id="igUpload1"></div>
+    <div id="error-message" style="color: #FF0000; font-weight: bold;"></div>
